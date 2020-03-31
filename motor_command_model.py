@@ -140,9 +140,7 @@ def closed_form_parameters(z, u):
     solution of the trajectory of the robot given the wheels velocities and the initial state of the robot"""
     k = model_parameters()[0]
     d = model_parameters()[1]
-    print(u)
-    print(z)
-    
+
     if abs(u[1][0] - u[0][0]) >= 0.0001:
         r = (d * (u[0][0] + u[1][0])) / (u[0][0] - u[1][0])
         omega = (k * (u[0][0] - u[1][0])) / (2 * d)
@@ -156,8 +154,6 @@ def closed_form_parameters(z, u):
     c_y = z[1][0]
     c_theta = z[2][0]
     return r, omega, c_x, c_y, c_theta
-global t
-t = 0
 
 def closed_form_step(z, u, dT):
     """"""
@@ -171,12 +167,7 @@ def closed_form_step(z, u, dT):
     c_theta = cfp[4]
     s_lw = u[0][0]
     s_rw = u[1][0]
-    print(cfp)
-    print(z)
-    print(u)
-    t = t + dT
-    print(t)
-    
+ 
     if abs(s_lw - s_rw) >= float(0.0001):
         zp = np.array([[r * sin(omega * T + c_theta) + c_x],
                        [- r * cos(omega * T + c_theta) + c_y],
@@ -185,5 +176,5 @@ def closed_form_step(z, u, dT):
         zp = np.array([[(k / 2) * cos(c_theta) * (s_lw + s_rw) * T + c_x],
                        [(k / 2) * sin(c_theta) * (s_lw + s_rw) * T + c_y],
                        [c_theta]])
-    print(zp)
+    
     return zp
