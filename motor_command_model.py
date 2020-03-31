@@ -150,8 +150,8 @@ def closed_form_parameters(z, u):
         c_theta = z[2][0]
         r = 0
         omega = 0
-    c_x = z[0][0]
-    c_y = z[1][0]
+    c_x = z[0][0]-r*sin(z[2][0])
+    c_y = z[1][0]+r*cos(z[2][0])
     c_theta = z[2][0]
     return r, omega, c_x, c_y, c_theta
 
