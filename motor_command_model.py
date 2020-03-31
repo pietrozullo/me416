@@ -141,6 +141,7 @@ def closed_form_parameters(z, u):
     k = model_parameters()[0]
     d = model_parameters()[1]
     print(u)
+    print(z)
     if abs(u[1][0] - u[0][0]) >= 0.0001:
         r = (d * (u[0][0] + u[1][0])) / (u[0][0] - u[1][0])
         omega = -(k * (u[1][0] - u[0][0])) / (2 * d)
