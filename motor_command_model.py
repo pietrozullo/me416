@@ -155,7 +155,7 @@ def closed_form_parameters(z, u):
     c_theta = z[2][0]
     return r, omega, c_x, c_y, c_theta
 
-def closed_form_step(z, u, dT):
+def closed_form_step(z, u, T):
     """"""
     k = model_parameters()[0]
     d = model_parameters()[1]
