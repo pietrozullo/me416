@@ -172,6 +172,7 @@ def closed_form_step(z, u, T):
     s_rw = u[1][0]
     print(cfp)
     print(z)
+    print('%f equals',u)
     if abs(s_lw - s_rw) >= float(0.0001):
         zp = np.array([[r * sin(omega * T + c_theta) + c_x],
                        [- r * cos(omega * T + c_theta) + c_y],
