@@ -142,8 +142,9 @@ def closed_form_parameters(z, u):
     d = model_parameters()[1]
     print(u)
     print(z)
+    
     if abs(u[1][0] - u[0][0]) >= 0.0001:
-        r = (d * (u[0][0] + u[1][0])) / (u[1][0] - u[0][0])
+        r = (d * (u[0][0] + u[1][0])) / (u[0][0] - u[1][0])
         omega = (k * (u[0][0] - u[1][0])) / (2 * d)
     else:
         c_x = z[0][0]
@@ -171,7 +172,6 @@ def closed_form_step(z, u, T):
     s_rw = u[1][0]
     print(cfp)
     print(z)
-    print(T)
     if abs(s_lw - s_rw) >= float(0.0001):
         zp = np.array([[r * sin(omega * T + c_theta) + c_x],
                        [- r * cos(omega * T + c_theta) + c_y],
