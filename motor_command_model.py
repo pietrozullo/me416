@@ -111,10 +111,9 @@ class StampedMsgRegister():
 
 def system_matrix(theta):
     """Returns a numpy array with the A(theta) matrix for a differential drive robot"""
-    global k 
-    global d
-    #k = model_parameters()[0]
-    #d = model_parameters()[1]
+   
+    k = model_parameters()[0]
+    d = model_parameters()[1]
 
     A = 0.5 * k * (np.array([[cos(theta), cos(theta)],
                              [sin(theta), sin(theta)], [-1 / d, 1 / d]]))
@@ -140,10 +139,9 @@ def euler_step(z, u, stepSize):
 def closed_form_parameters(z, u):
     """Computes the values of several parameters of the closed form of the
     solution of the trajectory of the robot given the wheels velocities and the initial state of the robot"""
-    global k 
-    global d
-    #k = model_parameters()[0]
-    #d = model_parameters()[1]
+    
+    k = model_parameters()[0]
+    d = model_parameters()[1]
 
     if abs(u[1][0] - u[0][0]) >= 0.0001:
         r = (d * (u[0][0] + u[1][0])) / (u[0][0] - u[1][0])
@@ -161,10 +159,9 @@ def closed_form_parameters(z, u):
 
 def closed_form_step(z, u, T):
     """"""
-    global k 
-    global d
-    #k = model_parameters()[0]
-    #d = model_parameters()[1]
+   
+    k = model_parameters()[0]
+    d = model_parameters()[1]
     cfp = closed_form_parameters(z, u)
     r = cfp[0]
     omega = cfp[1]
