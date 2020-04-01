@@ -8,11 +8,8 @@ def model_parameters():
     """Returns two constant model parameters"""
     global k
     global d
-
     k = 3.73
-
     d = 0.7
-
     return k, d
 
 
@@ -91,11 +88,14 @@ class KeysToVelocities():
 
 
 class StampedMsgRegister():
+    #define a global variable to initialize the tmsg_previous message
     global tmsg_previous
     tmsg_previous = None
 
     def replace_and_compute_delay(self, tmsg):
         global tmsg_previous
+        
+       #main loop to compute delay 
         if tmsg == None or tmsg_previous == None:
             time_delay = None
             msgaus = None
@@ -103,7 +103,7 @@ class StampedMsgRegister():
             time_delay = tmsg.header.stamp.to_sec(
             ) - tmsg_previous.header.stamp.to_sec()
             msgaus = tmsg_previous
-
+        #the just analyzed message will become the next previous_message
         tmsg_previous = tmsg
 
         return time_delay, msgaus
@@ -111,8 +111,10 @@ class StampedMsgRegister():
 
 def system_matrix(theta):
     """Returns a numpy array with the A(theta) matrix for a differential drive robot"""
-    k = model_parameters()[0]
-    d = model_parameters()[1]
+    global k 
+    global d
+    #k = model_parameters()[0]
+    #d = model_parameters()[1]
 
     A = 0.5 * k * (np.array([[cos(theta), cos(theta)],
                              [sin(theta), sin(theta)], [-1 / d, 1 / d]]))
@@ -127,7 +129,7 @@ def system_field(z, u):
 def euler_step(z, u, stepSize):
     """Integrates the dynamical model for one time step using Euler's method"""
 
-    theta = z[2]
+    theta = z[2][0]
     A = system_matrix(theta)
     dz = A.dot(u)
     zp = dz * stepSize
@@ -138,8 +140,10 @@ def euler_step(z, u, stepSize):
 def closed_form_parameters(z, u):
     """Computes the values of several parameters of the closed form of the
     solution of the trajectory of the robot given the wheels velocities and the initial state of the robot"""
-    k = model_parameters()[0]
-    d = model_parameters()[1]
+    global k 
+    global d
+    #k = model_parameters()[0]
+    #d = model_parameters()[1]
 
     if abs(u[1][0] - u[0][0]) >= 0.0001:
         r = (d * (u[0][0] + u[1][0])) / (u[0][0] - u[1][0])
@@ -157,8 +161,10 @@ def closed_form_parameters(z, u):
 
 def closed_form_step(z, u, T):
     """"""
-    k = model_parameters()[0]
-    d = model_parameters()[1]
+    global k 
+    global d
+    #k = model_parameters()[0]
+    #d = model_parameters()[1]
     cfp = closed_form_parameters(z, u)
     r = cfp[0]
     omega = cfp[1]
