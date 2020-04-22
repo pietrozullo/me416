@@ -174,8 +174,8 @@ def segmentation_prepare_dataset():
 def classifier_parameters():
     #lb = np.array([[105], [150], [160]])
     #ub = np.array([[110], [255], [255]])
-    lb = (105, 60, 38)
-    ub = (110, 255, 255)
+    lb = (102, 60, 38)
+    ub = (111, 255, 255)
     return lb, ub
 
 
@@ -196,24 +196,19 @@ def segmentation_statistics(filename_positive, filename_negative):
     #creates the masks
     maskpos = cv2.inRange(imgpos, lb, ub)
     maskneg = cv2.inRange(imgneg, lb, ub)
-    cv2.imshow('maskpos', maskpos)
-    cv2.waitKey()
-    cv2.imshow('maskneg', maskneg)
-    cv2.waitKey()
     positive_positive = np.count_nonzero(maskpos == 255)
-    positive_negative = np.count_nonzero(maskpos == 0)
-    negative_positive = np.count_nonzero(maskneg == 255)
+    false_negative = np.count_nonzero(maskpos == 0)
+    false_positive = np.count_nonzero(maskneg == 255)
     negative_negative = np.count_nonzero(maskneg == 0)
 
-    stats = np.array([[positive_positive], [positive_negative],
-                      [negative_positive], [negative_negative]])
+    stats = np.array([[positive_positive], [false_negative], [false_positive],
+                      [negative_negative]])
 
     true_positive = (np.shape(imgpos)[0]) * (np.shape(imgpos)[1])
     true_false = (np.shape(imgneg)[0]) * (np.shape(imgneg)[1])
-    print(stats, true_positive, true_false)
-    precision = float(100 * (true_positive) /
-                      (true_positive + negative_positive))
-    recall = float(100 * (true_positive) / (true_positive + positive_negative))
+
+    precision = float(100 * (true_positive) / (true_positive + false_positive))
+    recall = float(100 * (true_positive) / (true_positive + false_negative))
 
     print('For the image %s the precision is %d  and the recall is %d ' %
           (filename_positive[2:], precision, recall))
@@ -255,7 +250,7 @@ def image_centroid_test():
     #add line on color img
     line = image_line_vertical(color, x)
     #show images
-    cv2.imshow('test_original', img)
+    cv2.imshow('test_original', cv2.cvtColor(img, cv2.COLOR_HSV2BGR))
     cv2.waitKey()
     cv2.imshow('test_segmented', line)
     cv2.waitKey()
@@ -271,10 +266,10 @@ if __name__ == '__main__':
     img2 = cv2.inRange(
         cv2.cvtColor(cv2.imread('../scripts/line-cross.jpg'),
                      cv2.COLOR_BGR2HSV), lb, ub)
-    # cv2.imshow('Line train segmented', img1)
-    # cv2.waitKey()
-    #cv2.imshow('Line cross segmented', img2)
-    # cv2.waitKey()
+    cv2.imshow('Line train segmented', img1)
+    cv2.waitKey()
+    cv2.imshow('Line cross segmented', img2)
+    cv2.waitKey()
     segmentation_statistics('./train-positive.png', './train-negative.png')
-    #segmentation_statistics('./cross-positive.png', './cross-negative.png')
-    #image_centroid_test()
+    segmentation_statistics('./cross-positive.png', './cross-negative.png')
+    image_centroid_test()
