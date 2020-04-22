@@ -230,7 +230,7 @@ def image_centroid_horizontal(img):
     else:
         pass
 
-    imgc = cv2.cvtColor(imgc, cv2.COLOR_HSV2BGR)
+    #imgc = cv2.cvtColor(imgc, cv2.COLOR_HSV2BGR)
 
     img_with_line = image_line_vertical(imgc, x)
 
