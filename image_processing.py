@@ -185,6 +185,9 @@ def segmentation_statistics(filename_positive, filename_negative):
     #read the images
     imgpos = cv2.imread(filename_positive)
     imgneg = cv2.imread(filename_negative)
+    #transofrms the picture into hsv 
+    imgpos = cv2.cvtColor(imgpos,cv2.COLOR_BGR2HSV)
+    imgneg = cv2.cvtColor(imgneg,cv2.COLOR_BGR2HSV)
     #checks if any uploading error has occured
     if np.shape(imgpos) == None or np.shape(imgneg) == None:
         print('Reading error')
