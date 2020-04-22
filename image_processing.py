@@ -185,9 +185,6 @@ def segmentation_statistics(filename_positive, filename_negative):
     #read the images
     imgpos = cv2.imread(filename_positive)
     imgneg = cv2.imread(filename_negative)
-    #transofrms the picture into hsv 
-    imgpos = cv2.cvtColor(imgpos,cv2.COLOR_BGR2HSV)
-    imgneg = cv2.cvtColor(imgneg,cv2.COLOR_BGR2HSV)
     #checks if any uploading error has occured
     if np.shape(imgpos) == None or np.shape(imgneg) == None:
         print('Reading error')
@@ -210,8 +207,8 @@ def segmentation_statistics(filename_positive, filename_negative):
     true_positive = (np.shape(imgpos)[0]) * (np.shape(imgpos)[1])
     true_false = (np.shape(imgneg)[0]) * (np.shape(imgneg)[1])
 
-    precision = float(100 * (true_positive) / (true_positive + false_positive))
-    recall = float(100 * (true_positive) / (true_positive + false_negative))
+    precision = float( (true_positive) / (true_positive + false_positive))
+    recall = float( (true_positive) / (true_positive + false_negative))
 
     print('For the image %s the precision is %d  and the recall is %d ' %
           (filename_positive[2:], precision, recall))
